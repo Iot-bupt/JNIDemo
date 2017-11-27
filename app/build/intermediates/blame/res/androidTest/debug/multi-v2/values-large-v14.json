@@ -1,0 +1,48 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/build/intermediates/res/merged/androidTest/debug/values-large-v14/values-large-v14.xml",
+            "map": [
+                {
+                    "source": "/Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/res/values-large-v14/values.xml",
+                    "from": {
+                        "startLines": "6,8",
+                        "startColumns": "4,4",
+                        "startOffsets": "289,399",
+                        "endColumns": "108,120",
+                        "endOffsets": "393,515"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,163",
+                        "endColumns": "107,119",
+                        "endOffsets": "158,278"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-large-v14/values-large-v14.xml",
+            "map": [
+                {
+                    "source": "/Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/res/values-large-v14/values.xml",
+                    "from": {
+                        "startLines": "6,8",
+                        "startColumns": "4,4",
+                        "startOffsets": "289,399",
+                        "endColumns": "108,120",
+                        "endOffsets": "393,515"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,163",
+                        "endColumns": "107,119",
+                        "endOffsets": "158,278"
+                    }
+                }
+            ]
+        }
+    ]
+}
