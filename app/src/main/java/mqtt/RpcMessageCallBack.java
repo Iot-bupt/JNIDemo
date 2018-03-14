@@ -29,13 +29,13 @@ public class RpcMessageCallBack implements MqttCallback{
 		// TODO Auto-generated method stub
 		Log.e("12345", "connection lost");
 		
-//		try {
-//			Thread.sleep(500);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		SecondActivity.wrapper.init();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SecondActivity.wrapper.init();
 	}
 
 	@Override
@@ -50,49 +50,66 @@ public class RpcMessageCallBack implements MqttCallback{
 	
 		JSONObject messageData = new JSONObject(new String(msg.getPayload()));
 
-		String method_uid = messageData.getString("method");
-		Log.e("12345",method_uid );
-		String sarray[]=method_uid.split("_"); 
-		String method = sarray[0];
-		String uid =sarray[1];
-		if(devices.get(uid)==null){
-			return;
+		String method = messageData.getString("method");
+		JSONObject params = messageData.getJSONObject("params");
+		String uid = params.getString("uid");
+
+		Log.e("12345", "params  ="+params );
+		Log.e("12345", "method ="+method );
+
+		if(!devices.containsKey(uid)) return;
+		Object status = params.get("status");
+		int  a = 0;
+		if(status instanceof String){
+			if(status.equals("true")) a = 1;
+		}else if(status instanceof Boolean){
+			a = (Boolean)status?1:0;
 		}
-		boolean params = messageData.getBoolean("params");
-		int state;
-		if(params == true){
-			 state = 1;
-		}else{
-			 state = 0;
-		}
+		//int  a = status?1:0;
+		Log.e("12345", "a ="+a );
 		if(method.startsWith("set")){
 			if(method.contains("door")){
-				serial.setGatedoorState(devices.get(uid), state, "81581581".getBytes());
+				serial.setGatedoorState(devices.get(uid), a, "81581581".getBytes());
 			}else{
-				serial.setDeviceState(devices.get(uid), state);
+				serial.setDeviceState(devices.get(uid), a);
 			}
-			
-		}else if(method.startsWith("get")){
+		}else{
 			String resTopic = topic.replace("request", "responce");
 			//MqttMessage message = new MqttMessage("1".getBytes());
 			SecondActivity.wrapper.rpcPublish(resTopic,"1");
 		}
-        
-//		switch(uid_int){
-//		
-//		case 723015:
-//			if(method.equals("setDeviceState")){
-//				serial.setDeviceState(devices.get("723015"), state);
-//			}
+
+//		String method_uid = messageData.getString("method");
+//		Log.e("12345",method_uid );
+//		String sarray[]=method_uid.split("_");
+//		String method = sarray[0];
+//		String uid =sarray[1];
+////		String method = messageData.getString("method");
+////		JSONObject params = messageData.getJSONObject("params");
+//
+//		if(uid==null){
+//			return;
 //		}
-		
-//		String data = new String(msg.getPayload());
-//		Log.e("1234", data);
-//		if(devices.containsKey("723015")){
-//			int i = new Random().nextInt()%2;
-//			Log.e("1234", i+"");
-//			serial.setDeviceState(devices.get("723015"), i);
+////		String uid = params.getString("uid");
+////		boolean status = params.getBoolean("status");
+//		boolean status = messageData.getBoolean("params");
+//		int a;
+//		if(status == true){
+//			 a = 1;
+//		}else{
+//			 a = 0;
+//		}
+//		if(!method.startsWith("get")){
+//			if(method.contains("door")){
+//				serial.setGatedoorState(devices.get(uid), a, "81581581".getBytes());
+//			}else{
+//				serial.setDeviceState(devices.get(uid), a);
+//			}
+//
+//		}else {
+//			String resTopic = topic.replace("request", "responce");
+//			//MqttMessage message = new MqttMessage("1".getBytes());
+//			SecondActivity.wrapper.rpcPublish(resTopic,"1");
 //		}
 	}
-
 }

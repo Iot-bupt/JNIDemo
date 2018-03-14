@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-tr/values-tr.xml",
+            "outputFile": "/Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/build/intermediates/res/merged/debug/values-tr/values-tr.xml",
             "map": [
                 {
                     "source": "/Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/res/values-tr/values.xml",
@@ -23,7 +23,7 @@
             ]
         },
         {
-            "outputFile": "/Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/build/intermediates/res/merged/debug/values-tr/values-tr.xml",
+            "outputFile": "/Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-tr/values-tr.xml",
             "map": [
                 {
                     "source": "/Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/res/values-tr/values.xml",

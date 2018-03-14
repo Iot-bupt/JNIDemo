@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -73,20 +74,14 @@ public  class SecondActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         
-        Button btn_init = (Button) findViewById(R.id.btn_init);
-        btn_init.setOnClickListener(initonclick);
+//        Button btn_init = (Button) findViewById(R.id.btn_init);
+//        btn_init.setOnClickListener(initonclick);
         
         Button btn_link = (Button) findViewById(R.id.btn_link);
         btn_link.setOnClickListener(linkonclick);
         
-        Button btn_device = (Button) findViewById(R.id.btn_device);
-        btn_device.setOnClickListener(deviceonclick);
-        
-         tv1 = (TextView)findViewById(R.id.tv1);
-         tv2 = (TextView)findViewById(R.id.tv2);
-        
-        et1 = (EditText)findViewById(R.id.et1);
-        et2 = (EditText)findViewById(R.id.et2);
+//        Button btn_device = (Button) findViewById(R.id.btn_device);
+//        btn_device.setOnClickListener(deviceonclick);
         
         smsBroadCastReceiver = new SmsBroadCastReceiver();
         registerReceiver(smsBroadCastReceiver,new IntentFilter("com.feibi.callback"));
@@ -94,27 +89,13 @@ public  class SecondActivity extends ActionBarActivity {
         		
         }
     
-    private View.OnClickListener initonclick = new View.OnClickListener() {
-		
-		@Override
-		public void onClick(View arg0) {
-			String str1 = et1.getText().toString();
-			String str2 = et2.getText().toString();
-			if("".equals(str1)||str1==null){
-				
-			}else{
-				Config.THINGSBOARD_MQTT_HOST = str1;
-			}
-			
-			if("".equals(str2)||str2==null){
-				
-			}else{
-				Config.DATACACHE_MQTT_HOST = str2;
-			}
-			wrapper.init();	
-	        
-		}
-	};
+//    private View.OnClickListener initonclick = new View.OnClickListener() {
+//
+//		@Override
+//		public void onClick(View arg0) {
+//			wrapper.init();
+//		}
+//	};
 	
     
     private View.OnClickListener linkonclick = new View.OnClickListener() {
@@ -122,6 +103,7 @@ public  class SecondActivity extends ActionBarActivity {
 		@Override
 		public void onClick(View arg0) {
 			// TODO Auto-generated method stub
+			 wrapper.init();
 			 int ret = serial.connectLANZll();
 	    	 if(ret > 0){
 		    	 Toast.makeText(getApplicationContext(), ret+"", Toast.LENGTH_SHORT).show();
@@ -130,18 +112,21 @@ public  class SecondActivity extends ActionBarActivity {
 	    	 {
 	    		 Toast.makeText(getApplicationContext(), ret+"", Toast.LENGTH_SHORT).show();
 	    	 }
+			serial.getDevices();
+			timer.schedule(task, 3000, 5000);
+
 		}
 	};
 	
-    private View.OnClickListener deviceonclick = new View.OnClickListener() {
-		
-		@Override
-		public void onClick(View arg0) {
-			// TODO Auto-generated method stub
-			 serial.getDevices();
-			 timer.schedule(task, 3000, 5000);
-		}
-	};
+//    private View.OnClickListener deviceonclick = new View.OnClickListener() {
+//
+//		@Override
+//		public void onClick(View arg0) {
+//			// TODO Auto-generated method stub
+//			 serial.getDevices();
+//			 timer.schedule(task, 3000, 5000);
+//		}
+//	};
 	
 	public  class SmsBroadCastReceiver extends BroadcastReceiver    
 	{   
