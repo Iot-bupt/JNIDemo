@@ -78,38 +78,5 @@ public class RpcMessageCallBack implements MqttCallback{
 			//MqttMessage message = new MqttMessage("1".getBytes());
 			SecondActivity.wrapper.rpcPublish(resTopic,"1");
 		}
-
-//		String method_uid = messageData.getString("method");
-//		Log.e("12345",method_uid );
-//		String sarray[]=method_uid.split("_");
-//		String method = sarray[0];
-//		String uid =sarray[1];
-////		String method = messageData.getString("method");
-////		JSONObject params = messageData.getJSONObject("params");
-//
-//		if(uid==null){
-//			return;
-//		}
-////		String uid = params.getString("uid");
-////		boolean status = params.getBoolean("status");
-//		boolean status = messageData.getBoolean("params");
-//		int a;
-//		if(status == true){
-//			 a = 1;
-//		}else{
-//			 a = 0;
-//		}
-//		if(!method.startsWith("get")){
-//			if(method.contains("door")){
-//				serial.setGatedoorState(devices.get(uid), a, "81581581".getBytes());
-//			}else{
-//				serial.setDeviceState(devices.get(uid), a);
-//			}
-//
-//		}else {
-//			String resTopic = topic.replace("request", "responce");
-//			//MqttMessage message = new MqttMessage("1".getBytes());
-//			SecondActivity.wrapper.rpcPublish(resTopic,"1");
-//		}
 	}
 }

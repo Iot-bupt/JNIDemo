@@ -4,7 +4,7 @@ ADDED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/Androi
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:2:1-37:12
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:2:1-37:12
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:2:1-37:12
-MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/AndroidManifest.xml:16:1-20:12
+MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/b0c4d32375d28314bfaf0808ee8ee045/AndroidManifest.xml:16:1-20:12
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:2:1-37:12
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:2:1-37:12
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:2:1-37:12
@@ -26,8 +26,8 @@ uses-sdk
 ADDED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:7:5-9:41
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:7:5-9:41
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/AndroidManifest.xml:18:5-42
-MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/b0c4d32375d28314bfaf0808ee8ee045/AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/b0c4d32375d28314bfaf0808ee8ee045/AndroidManifest.xml:18:5-42
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:7:5-9:41
 INJECTED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:7:5-9:41
 	android:targetSdkVersion
@@ -48,8 +48,8 @@ ADDED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/Androi
 		ADDED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:11:19-64
 application
 ADDED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:12:5-35:19
-MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/AndroidManifest.xml:19:5-20
-MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/AndroidManifest.xml:19:5-20
+MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/b0c4d32375d28314bfaf0808ee8ee045/AndroidManifest.xml:19:5-20
+MERGED from [com.android.support:appcompat-v7:19.1.0] /Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/b0c4d32375d28314bfaf0808ee8ee045/AndroidManifest.xml:19:5-20
 	android:label
 		ADDED from /Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/src/main/AndroidManifest.xml:15:9-41
 	android:icon

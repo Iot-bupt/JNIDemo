@@ -34,7 +34,8 @@ public class MqttWrapper {
 		
 		uploadMqtt.connect(optionforUploadMqtt);
 		rpcMqtt.connect(optionforRpcMqtt);
-		rpcMqtt.subscribe(Config.RPC_TOPIC);
+		//rpcMqtt.subscribe();
+		rpcMqtt.subscribe(Config.RPC_TOPIC,1);
 	
 		
 	}catch(Exception e){

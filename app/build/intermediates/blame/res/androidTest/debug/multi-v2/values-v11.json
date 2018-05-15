@@ -4,7 +4,7 @@
             "outputFile": "/Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v11/values-v11.xml",
             "map": [
                 {
-                    "source": "/Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/res/values-v11/values.xml",
+                    "source": "/Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/2fd99babb39c274d20d1f18a89ba58c6/res/values-v11/values.xml",
                     "from": {
                         "startLines": "6,23,36,49,68,70,72,74",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -28,7 +28,7 @@
             "outputFile": "/Users/zy/Documents/AndroidStudioProjects/JNIdemo/app/build/intermediates/res/merged/androidTest/debug/values-v11/values-v11.xml",
             "map": [
                 {
-                    "source": "/Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/861ceb18e44e2629399252d51f42ab5d/res/values-v11/values.xml",
+                    "source": "/Users/zy/.gradle/caches/transforms-1/files-1.1/appcompat-v7-19.1.0.aar/2fd99babb39c274d20d1f18a89ba58c6/res/values-v11/values.xml",
                     "from": {
                         "startLines": "6,23,36,49,68,70,72,74",
                         "startColumns": "4,4,4,4,4,4,4,4",

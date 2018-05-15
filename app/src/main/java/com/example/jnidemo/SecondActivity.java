@@ -73,29 +73,20 @@ public  class SecondActivity extends ActionBarActivity {
 		serial = new Serial();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        
-//        Button btn_init = (Button) findViewById(R.id.btn_init);
-//        btn_init.setOnClickListener(initonclick);
-        
+        //初始化组件
         Button btn_link = (Button) findViewById(R.id.btn_link);
         btn_link.setOnClickListener(linkonclick);
-        
-//        Button btn_device = (Button) findViewById(R.id.btn_device);
-//        btn_device.setOnClickListener(deviceonclick);
-        
+
+		//创建广播接收器
         smsBroadCastReceiver = new SmsBroadCastReceiver();
         registerReceiver(smsBroadCastReceiver,new IntentFilter("com.feibi.callback"));
         serial.setmContext(getApplicationContext());
-        		
+
+        //进行login
+
+
         }
-    
-//    private View.OnClickListener initonclick = new View.OnClickListener() {
-//
-//		@Override
-//		public void onClick(View arg0) {
-//			wrapper.init();
-//		}
-//	};
+
 	
     
     private View.OnClickListener linkonclick = new View.OnClickListener() {
@@ -118,15 +109,7 @@ public  class SecondActivity extends ActionBarActivity {
 		}
 	};
 	
-//    private View.OnClickListener deviceonclick = new View.OnClickListener() {
-//
-//		@Override
-//		public void onClick(View arg0) {
-//			// TODO Auto-generated method stub
-//			 serial.getDevices();
-//			 timer.schedule(task, 3000, 5000);
-//		}
-//	};
+
 	
 	public  class SmsBroadCastReceiver extends BroadcastReceiver    
 	{   
