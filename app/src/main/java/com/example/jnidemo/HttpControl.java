@@ -3,6 +3,12 @@ package com.example.jnidemo;
 
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,13 +32,14 @@ import okhttp3.Response;
 
 public class HttpControl {
 
-    private Cookie cookie;
+    static private Cookie ck;
     private String host = "10.112.233.200";
-    private String session ;
+    static private String session ;
+    private String id;
+    private String deviceToken;
 
     private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
-
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType js = MediaType.parse("application/json; charset=utf-8");
 
     ///创建okHttpClient对象
     private OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
@@ -50,13 +57,14 @@ public class HttpControl {
             })
             .build();
 
+
     /*
     登录时的post请求
      */
     protected void httplogin(){
 
         //请求体
-        RequestBody bodyLogin = RequestBody.create(JSON, "{\"username\":\"1111test@qq.com\",\"password\":\"123456\"}");
+        RequestBody bodyLogin = RequestBody.create(js, "{\"username\":\"1111test@qq.com\",\"password\":\"123456\"}");
 
         //创建一个Request Request是OkHttp中访问的请求，Builder是辅助类。Response即OkHttp中的响应。
          final Request requestLogin = new Request.Builder()
@@ -84,17 +92,16 @@ public class HttpControl {
 //                Log.e("info_headers", "header " + headers);
                 System.out.println("header-login:" + headers);
 
-                cookie = cookieStore.get(host).get(0);
-                String sessionStr = cookie.toString();
+                ck = cookieStore.get(host).get(0);
+
+                String sessionStr = ck.toString();
                 session = sessionStr.substring(0,sessionStr.indexOf(";"));
 
 //                Log.e("info_cookies", "onResponse-size: " + cookies);
 //                Log.e("info_s", "session is  :" + s);
 
-                System.out.println("cookie is  :" + cookie);
+                System.out.println("cookie is  :" + ck);
                 System.out.println("session is  :" + session);
-//                String result = response.body().string();
-//                System.out.println("response—login:"+result);
 
             }
         });
@@ -102,13 +109,13 @@ public class HttpControl {
     }
 
     /*
-    创建新设备的http接口
+    创建新设备的post请求
      */
 
     protected void httpcreate(String devicename){
 
         //请求体
-        RequestBody bodyCreate = RequestBody.create(JSON, "{\"name\":\""+devicename.toString()+"\"}");
+        RequestBody bodyCreate = RequestBody.create(js, "{\"name\":\""+devicename.toString()+"\"}");
 
         //创建一个Request Request是OkHttp中访问的请求，Builder是辅助类。Response即OkHttp中的响应。
         Request requestCreate = new Request.Builder()
@@ -119,7 +126,7 @@ public class HttpControl {
                 .addHeader("Content-Type","application/json;charset=UTF-8")
                 .addHeader("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) " +
                         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36")
-                .addHeader("Cookie",cookie.toString())
+                .addHeader("Cookie",session.toString())
                 .build();
         //得到一个call对象
         Call call = mOkHttpClient.newCall(requestCreate);
@@ -138,17 +145,76 @@ public class HttpControl {
 
                 String result = response.body().string();
                 System.out.println("response—create:"+result);
+
+                JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
+                id = jsonObject.get("id").getAsString();
+                System.out.println("id :"+id);
+
+            }
+        });
+
+    }
+
+    /*
+    查找令牌的get请求
+     */
+
+    protected void httpfind(){
+
+        //创建一个Request Request是OkHttp中访问的请求，Builder是辅助类。Response即OkHttp中的响应。
+        Request requestCreate = new Request.Builder()
+                .url("http://10.112.233.200/api/device/token/"+id.toString())
+                .get()
+                .addHeader("Accept","application/json, text/plain, */*")
+                .addHeader("Connection","keep-alive")
+                .addHeader("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) " +
+                        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36")
+                .addHeader("Cookie",session.toString())
+                .build();
+        //得到一个call对象
+        Call call = mOkHttpClient.newCall(requestCreate);
+        //请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("httprequest", "findtoken请求失败 " );
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                Headers headers = response.headers();
+                System.out.println("header-create:" + headers);
+
+                String result = response.body().string();
+                System.out.println("response—find:"+result);
+                JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
+                deviceToken = jsonObject.get("deviceToken").getAsString();
+                System.out.println("Token :"+deviceToken);
             }
         });
 
     }
 
 
+
     public static void main(String[] arg){
 
         HttpControl hc= new HttpControl();
         hc.httplogin();
-        hc.httpcreate("123");
+        try
+        {
+            Thread.currentThread().sleep(1000);//毫秒
+        }
+        catch(Exception e){}
+        hc.httpcreate("zy");
+        try
+        {
+            Thread.currentThread().sleep(1000);//毫秒
+        }
+        catch(Exception e){}
+        hc.httpfind();
+
     }
 
 }

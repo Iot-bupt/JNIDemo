@@ -43,6 +43,8 @@ public  class SecondActivity extends ActionBarActivity {
 	private TextView tv2;
 	private EditText et1;
 	private EditText et2;
+
+	private HttpControl hc= new HttpControl();
 	
 	
 	private final Timer timer = new Timer();
@@ -82,9 +84,13 @@ public  class SecondActivity extends ActionBarActivity {
         registerReceiver(smsBroadCastReceiver,new IntentFilter("com.feibi.callback"));
         serial.setmContext(getApplicationContext());
 
-        //进行login
-
-
+        //初始化的时候进行login
+		hc.httplogin();
+		try
+		{
+			Thread.currentThread().sleep(1000);//毫秒
+		}
+		catch(Exception e){}
         }
 
 	
@@ -116,42 +122,41 @@ public  class SecondActivity extends ActionBarActivity {
 	  
 	    @Override  
 	    public void onReceive(Context context, Intent intent)   
-	    { 
-	    	if(intent.getBooleanExtra("isAttribute", false)){
-		    	DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
-		    	
-		    	try {
-					postDeviceData(deviceInfo);
+	    {
+
+			if(intent.getBooleanExtra("isAttribute", true)) {
+				DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
+
+				//摘除sensordata发送属性
+				try {
+					postDeviceAttribute(deviceInfo);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	    	}else{
-	    		String data = intent.getStringExtra("data");
-	    		postDeviceTele(data);
-	    	}
+			}
+			else {
+				//只发送sensordata
+				postDeviceData("data");
+			}
+
 	    }
     }
-	
-	private void postDeviceData(DeviceInfo deviceInfo) {
+
+	private void postDeviceAttribute(DeviceInfo deviceInfo) {
 		// TODO Auto-generated method stub
 		try{
-	    	DeviceData deviceData = convert(deviceInfo);
-	    	Gson gson = new Gson();
-	    	 JSONObject json = new JSONObject();
-	    	 json.put("uId", deviceInfo.getUId());
-	    	 json.put("dataType", "attribute");
-	    	 json.put("deviceName", deviceInfo.getDeviceName());
-	    	String deviceDataStr = gson.toJson(deviceData);
-	    	json.put("info",deviceDataStr);	
-	    	wrapper.publish(Config.DATA_TOPIC, json.toString());
-	    	devices.put(deviceInfo.getUId()+"", deviceInfo);
-		}catch(Exception e){
+			DeviceData deviceData = convert(deviceInfo);
+			Gson gson = new Gson();
+			String deviceDataStr = gson.toJson(deviceData);
+			wrapper.publish(Config.ATTRIBUTE_TOPIC, deviceDataStr.toString());
+			devices.put(deviceInfo.getUId()+"", deviceInfo);
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}   
 	
-	private void postDeviceTele(String data){
+	private void postDeviceData(String data){
 		try{
 			JSONObject json = new JSONObject(data);
 			String uId = json.getString("uId");
@@ -175,7 +180,7 @@ public  class SecondActivity extends ActionBarActivity {
     	deviceData.setDeviceid(String.valueOf(deviceInfo.getDeviceId()));
     	deviceData.setProfileid(String.valueOf(deviceInfo.getProfileId()));
     	deviceData.setType(deviceInfo.type);
-    	deviceData.setSensordata(String.valueOf(deviceInfo.getSensordata()));
+//    	deviceData.setSensordata(String.valueOf(deviceInfo.getSensordata()));
     	deviceData.setClusterid(String.valueOf(deviceInfo.getClusterId()));
     	deviceData.setAttribid(String.valueOf(deviceInfo.getAttribID()));
     	deviceData.setHascolourable(String.valueOf(deviceInfo.hasColourable));

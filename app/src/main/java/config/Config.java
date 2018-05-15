@@ -11,5 +11,6 @@ public class Config {
 	public static String RPC_DEVICE_ACCESSTOKEN = "rpc-proxy";
 	public static String RPC_TOPIC = "v1/devices/me/rpc/request/+";
 	public static String DATA_TOPIC = "iotTest";
+	public static String ATTRIBUTE_TOPIC ="";
 	public static volatile boolean ISFIRST = true;
 }

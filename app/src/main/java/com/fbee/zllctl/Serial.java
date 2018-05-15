@@ -872,36 +872,39 @@ public class Serial {
 	public void newDevice_CallBack(DeviceInfo dinfo)
 	{
 		try{
-			if(Config.ISFIRST==true){
+//			if(Config.ISFIRST==true){
 				Log.d("serial", "dinfoU.ID = " + dinfo);
 				
 				Intent i = new Intent();
 				i.setAction("com.feibi.callback");
+				i.putExtra("action", true);
 				i.putExtra("isAttribute", true);
 				i.putExtra("data",dinfo);
 				
 				mContext.sendBroadcast(i);
-			}else{
+//			}else{
+//
+//				if(dinfo.getDeviceId()==0x302){
+//					return ;
+//				}
+//
+//				Intent i = new Intent();
+//				i.setAction("com.feibi.callback");
+//				i.putExtra("isAttribute", false);
+//
+//				JSONObject json = new JSONObject();
+//				json.put("uId", dinfo.getUId());
+//
+//				JSONObject info = new JSONObject();
+//				info.put("data", dinfo.getSensordata());
+//
+//				json.put("dataType", "telemetry");
+//				json.put("info", info);
+//				i.putExtra("data",json.toString());
+//
+//				mContext.sendBroadcast(i);
 				
-				if(dinfo.getDeviceId()==0x302){
-					return ;
-				}
-				
-				Intent i = new Intent();
-				i.setAction("com.feibi.callback");
-				i.putExtra("isAttribute", false);
-				
-				JSONObject json = new JSONObject();
-				json.put("uId", dinfo.getUId());
-				JSONObject info = new JSONObject();
-				info.put("data", dinfo.getSensordata());
-				json.put("dataType", "telemetry");
-				json.put("info", info);
-				i.putExtra("data",json.toString());
-				
-				mContext.sendBroadcast(i);
-				
-			}
+//			}
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -983,6 +986,7 @@ public class Serial {
 			//i.putExtra("data",data);
 			JSONObject json = new JSONObject();			
 			json.put("uId", uId);
+
 			JSONObject info = new JSONObject();
 			if(attribID == 0x00){
 				info.put("temperature", data);
