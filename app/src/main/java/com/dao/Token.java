@@ -5,6 +5,7 @@ package com.dao;
  */
 
 public interface Token {
+
     public void insert(String uid,String token);
     public boolean delete(String uid);
     public boolean update(String uid,String token);

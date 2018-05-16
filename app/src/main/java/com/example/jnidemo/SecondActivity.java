@@ -11,13 +11,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,6 +82,10 @@ public  class SecondActivity extends ActionBarActivity {
         smsBroadCastReceiver = new SmsBroadCastReceiver();
         registerReceiver(smsBroadCastReceiver,new IntentFilter("com.feibi.callback"));
         serial.setmContext(getApplicationContext());
+
+		//创建SQlLite数据库
+		SQLiteOpenHelper helper = new DataBaseHelper(this);
+		helper.getWritableDatabase();
 
         //初始化的时候进行login
 		hc.httplogin();
