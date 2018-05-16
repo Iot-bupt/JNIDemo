@@ -10,7 +10,7 @@ public class DataMqttClient {
     public static void publishData(String token, JSONObject data){
 
     }
-    public static void publishAttribute(String token,JSONObject datas){
+    public static void publishAttribute(String token,JSONObject data){
 
     }
 }

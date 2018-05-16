@@ -10,7 +10,7 @@ public class DeviceInfo implements Serializable
 	private String deviceName;
 	private byte deviceStatus;// 设备是否在线；
 	private byte deviceState; // 设备状态（灯:开、关)
-	private int uId;
+	private String uId;
 	private short deviceId;
 	private short ProfileId;
 	public String type = "Unknown Device";
@@ -36,7 +36,7 @@ public class DeviceInfo implements Serializable
 	public DeviceInfo() {
 	
 	}
-	public DeviceInfo(String deviceName, int uId, short deviceId,
+	public DeviceInfo(String deviceName, String uId, short deviceId,
 			short profileId, byte hasColourable, byte hasDimmable,
 			byte hasSwitchable, byte hasThermometer, byte hasPowerUsage,
 			byte hasOutSwitch, byte hasOutLeveL, byte hasOutColor,
@@ -61,7 +61,7 @@ public class DeviceInfo implements Serializable
 		this.zoneType = zoneType;
 	}
 
-	public DeviceInfo(int uId, int data, short clusterId, short attribID,String deviceName) {
+	public DeviceInfo(String uId, int data, short clusterId, short attribID,String deviceName) {
 		// TODO Auto-generated constructor stub
 		this.uId = uId;
 		this.Sensordata = data;
@@ -80,11 +80,11 @@ public class DeviceInfo implements Serializable
 		this.deviceName = deviceName;
 	}
 
-	public int getUId() {
+	public String getUId() {
 		return uId;
 	}
 
-	public void setUId(int uid) {
+	public void setUId(String uid) {
 		this.uId = uid;
 	}
 

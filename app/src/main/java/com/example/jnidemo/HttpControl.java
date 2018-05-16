@@ -35,8 +35,8 @@ public class HttpControl {
     static private Cookie ck;
     private String host = "10.112.233.200";
     static private String session ;
-    private String id;
-    private String deviceToken;
+    public String id;
+    public String deviceToken;
 
     private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
     private static final MediaType js = MediaType.parse("application/json; charset=utf-8");
@@ -159,7 +159,7 @@ public class HttpControl {
     查找令牌的get请求
      */
 
-    protected void httpfind(){
+    protected void httpfind(String id){
 
         //创建一个Request Request是OkHttp中访问的请求，Builder是辅助类。Response即OkHttp中的响应。
         Request requestCreate = new Request.Builder()
@@ -197,25 +197,25 @@ public class HttpControl {
     }
 
 
-
-    public static void main(String[] arg){
-
-        HttpControl hc= new HttpControl();
-        hc.httplogin();
-        try
-        {
-            Thread.currentThread().sleep(1000);//毫秒
-        }
-        catch(Exception e){}
-        hc.httpcreate("zy");
-        try
-        {
-            Thread.currentThread().sleep(1000);//毫秒
-        }
-        catch(Exception e){}
-        hc.httpfind();
-
-    }
+//
+//    public static void main(String[] arg){
+//
+//        HttpControl hc= new HttpControl();
+//        hc.httplogin();
+//        try
+//        {
+//            Thread.currentThread().sleep(1000);//毫秒
+//        }
+//        catch(Exception e){}
+//        hc.httpcreate("zy");
+//        try
+//        {
+//            Thread.currentThread().sleep(1000);//毫秒
+//        }
+//        catch(Exception e){}
+//        hc.httpfind();
+//
+//    }
 
 }
 

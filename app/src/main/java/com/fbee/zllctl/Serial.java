@@ -878,7 +878,6 @@ public class Serial {
 				Intent i = new Intent();
 				i.setAction("com.feibi.callback");
 				i.putExtra("action", true);
-				i.putExtra("isAttribute", true);
 				i.putExtra("data",dinfo);
 				
 				mContext.sendBroadcast(i);
@@ -979,27 +978,27 @@ public class Serial {
 	 *            传感器数据类型：00 ： 温度       17：湿度
 	 */
 	public void arriveReport_CallBack(int uId, int data, char clusterId, char attribID) {
-		try{
-			Intent i = new Intent();
-			i.setAction("com.feibi.callback");
-			i.putExtra("isAttribute", false);
-			//i.putExtra("data",data);
-			JSONObject json = new JSONObject();			
-			json.put("uId", uId);
-
-			JSONObject info = new JSONObject();
-			if(attribID == 0x00){
-				info.put("temperature", data);
-			}else{
-				info.put("humidity", data);
-			}
-			json.put("info", info);
-			json.put("dataType", "telemetry");
-			i.putExtra("data", json.toString());			
-			mContext.sendBroadcast(i);	
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+//		try{
+//			Intent i = new Intent();
+//			i.setAction("com.feibi.callback");
+//			i.putExtra("isAttribute", false);
+//			//i.putExtra("data",data);
+//			JSONObject json = new JSONObject();
+//			json.put("uId", uId);
+//
+//			JSONObject info = new JSONObject();
+//			if(attribID == 0x00){
+//				info.put("temperature", data);
+//			}else{
+//				info.put("humidity", data);
+//			}
+//			json.put("info", info);
+//			json.put("dataType", "telemetry");
+//			i.putExtra("data", json.toString());
+//			mContext.sendBroadcast(i);
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
 
 		
 	}

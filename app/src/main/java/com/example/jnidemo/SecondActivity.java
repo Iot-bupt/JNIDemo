@@ -22,11 +22,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import mqtt.DataMqttClient;
 import mqtt.MqttWrapper;
 
+import com.dao.TokenImpl;
 import com.fbee.zllctl.DeviceInfo;
 import com.fbee.zllctl.Serial;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import config.Config;
 
@@ -44,7 +49,8 @@ public  class SecondActivity extends ActionBarActivity {
 	private EditText et2;
 
 	private HttpControl hc= new HttpControl();
-	
+	private DataMqttClient dataMqttClient = new DataMqttClient();
+	private TokenImpl database = new TokenImpl();
 	
 	private final Timer timer = new Timer();
 	
@@ -93,10 +99,11 @@ public  class SecondActivity extends ActionBarActivity {
 		{
 			Thread.currentThread().sleep(1000);//毫秒
 		}
-		catch(Exception e){}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
-	
     
     private View.OnClickListener linkonclick = new View.OnClickListener() {
 		
@@ -127,50 +134,76 @@ public  class SecondActivity extends ActionBarActivity {
 	    public void onReceive(Context context, Intent intent)   
 	    {
 
-			if(intent.getBooleanExtra("isAttribute", true)) {
-				DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
-				int sensordata = deviceInfo.getSensordata();
-				//摘除sensordata发送属性
-				try {
-					postDeviceAttribute(deviceInfo);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else {
-				//只发送sensordata
-				postDeviceData("data");
-			}
+			DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
+
+			String uid = deviceInfo.getUId();
+			if(database.get(uid) == null){
+			    //SQLite里没有token
+                hc.httpcreate(deviceInfo.getDeviceName());
+                try
+                {
+                    Thread.currentThread().sleep(1000);//毫秒
+                }
+                catch(Exception e){}
+                hc.httpfind(hc.id);
+                try
+                {
+                    Thread.currentThread().sleep(1000);//毫秒
+                }
+                catch(Exception e){}
+                //存入DB
+                database.insert(uid,hc.deviceToken);
+                //摘除sensordata发送属性
+                postDeviceAttribute(deviceInfo, hc.deviceToken);
+                //只发送sensordata
+                postDeviceData(deviceInfo, hc.deviceToken);
+
+            }else{
+			    //SQLite里有token，从表中拿token
+                String token = database.get(uid);
+                //摘除sensordata发送属性
+                postDeviceAttribute(deviceInfo, token);
+                //只发送sensordata
+                postDeviceData(deviceInfo, token);
+
+            }
 
 	    }
     }
 
-	private void postDeviceAttribute(DeviceInfo deviceInfo) {
+	private void postDeviceAttribute(DeviceInfo deviceInfo, String token) {
 		// TODO Auto-generated method stub
 		try{
 			DeviceData deviceData = convert(deviceInfo);
 			Gson gson = new Gson();
 			String deviceDataStr = gson.toJson(deviceData);
-			wrapper.publish(Config.ATTRIBUTE_TOPIC, deviceDataStr.toString());
-			devices.put(deviceInfo.getUId()+"", deviceInfo);
+			JSONObject jsonObject = new JSONObject(deviceDataStr);
+			//进行发送
+			dataMqttClient.publishAttribute(token,jsonObject);
+//			devices.put(deviceInfo.getUId()+"", deviceInfo);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}   
 	
-	private void postDeviceData(String data){
-		try{
-			JSONObject json = new JSONObject(data);
-			String uId = json.getString("uId");
-			if(devices.containsKey(uId)){
-		    	wrapper.publish(Config.DATA_TOPIC, json.toString());	
-			}else{
-				return;
+	private void postDeviceData(DeviceInfo deviceInfo, String token){
+		try {
+			int sensordata = deviceInfo.getSensordata();
+			JSONObject info = new JSONObject();
+			if(deviceInfo.getDeviceId()==0x302){
+				if(deviceInfo.getAttribID() == 0x00){
+					info.put("temperature", sensordata);
+				}else{
+					info.put("humidity", sensordata);
+				}
+			}else {
+				info.put("telemetry",sensordata);
 			}
-		}catch(Exception e){
+			dataMqttClient.publishData(token,info);
+		} catch (Exception e){
 			e.printStackTrace();
 		}
+
 	}
 	
     private  DeviceData convert(DeviceInfo deviceInfo) {

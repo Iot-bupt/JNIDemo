@@ -4,6 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.jnidemo.DataBaseHelper;
+import com.example.jnidemo.HttpControl;
 
 
 /**
@@ -19,6 +23,10 @@ public class TokenImpl implements Token{
 
     public TokenImpl(Context context) {
         this.mytabopen = new MyTabOpen(context);//获得数据库操作实例
+    }
+
+    public TokenImpl() {
+
     }
 
     //添加数据
@@ -57,10 +65,12 @@ public class TokenImpl implements Token{
         Cursor cur = db.rawQuery(sql, new String[]{uid});
         if(cur.moveToFirst()){
             String token = cur.getString(cur.getColumnIndex("token"));
-            return  token;
+            return token;
         }
         cur.close();
         db.close();
         return null;
     }
+
+
 }
