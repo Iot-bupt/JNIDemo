@@ -63,7 +63,7 @@ public  class SecondActivity extends ActionBarActivity {
 		@Override  
 	    public void run() {  
 	        // TODO Auto-generated method stub  
-			Config.ISFIRST = false;
+//			Config.ISFIRST = false;
 	        Message message = new Message();  
 	        message.what = 1;  
 	        handler.sendMessage(message);  
@@ -91,7 +91,7 @@ public  class SecondActivity extends ActionBarActivity {
 			Thread.currentThread().sleep(1000);//毫秒
 		}
 		catch(Exception e){}
-        }
+	}
 
 	
     
@@ -126,7 +126,7 @@ public  class SecondActivity extends ActionBarActivity {
 
 			if(intent.getBooleanExtra("isAttribute", true)) {
 				DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
-
+				int sensordata = deviceInfo.getSensordata();
 				//摘除sensordata发送属性
 				try {
 					postDeviceAttribute(deviceInfo);

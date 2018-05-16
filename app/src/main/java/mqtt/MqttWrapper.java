@@ -12,15 +12,15 @@ import android.util.Log;
 import config.Config;
 
 public class MqttWrapper {
-	private  MqttClient uploadMqtt;
+//	private  MqttClient uploadMqtt;
 	private  MqttClient rpcMqtt;
 	
 	public synchronized void  init(){
 	try{
 		
-		uploadMqtt = new MqttClient(Config.DATACACHE_MQTT_HOST,"iotUploaddata",new MemoryPersistence());
+//		uploadMqtt = new MqttClient(Config.DATACACHE_MQTT_HOST,"iotUploaddata",new MemoryPersistence());
 		rpcMqtt = new MqttClient(Config.THINGSBOARD_MQTT_HOST,"receiveRPC",new MemoryPersistence());
-		
+
 		MqttConnectOptions optionforUploadMqtt = new MqttConnectOptions();
 		MqttConnectOptions optionforRpcMqtt = new MqttConnectOptions();
 		
@@ -32,7 +32,7 @@ public class MqttWrapper {
 		rpcMqtt.setCallback(new RpcMessageCallBack(rpcMqtt));
 	//	uploadMqtt.setCallback(new DataMessageCallBack());
 		
-		uploadMqtt.connect(optionforUploadMqtt);
+//		uploadMqtt.connect(optionforUploadMqtt);
 		rpcMqtt.connect(optionforRpcMqtt);
 		//rpcMqtt.subscribe();
 		rpcMqtt.subscribe(Config.RPC_TOPIC,1);
@@ -43,18 +43,19 @@ public class MqttWrapper {
 		Log.e("12345", "init rpc mqtt fail");
 	}		
 	}
+
 	
-	public synchronized boolean publish(String topic,String data){
-	try{
-		MqttMessage msg = new MqttMessage();
-		msg.setPayload(data.getBytes(Charset.forName("utf-8")));
-		uploadMqtt.publish(topic, msg);		
-		return true;
-	}catch(Exception e){
-		e.printStackTrace();
-		return false;
-	}
-	}
+//	public synchronized boolean publish(String topic,String data){
+//	try{
+//		MqttMessage msg = new MqttMessage();
+//		msg.setPayload(data.getBytes(Charset.forName("utf-8")));
+//		uploadMqtt.publish(topic, msg);
+//		return true;
+//	}catch(Exception e){
+//		e.printStackTrace();
+//		return false;
+//	}
+//	}
 	public synchronized boolean rpcPublish(String topic,String data){
 	try{
 		MqttMessage msg = new MqttMessage();
