@@ -25,9 +25,7 @@ public class TokenImpl implements Token{
         this.mytabopen = new MyTabOpen(context);//获得数据库操作实例
     }
 
-    public TokenImpl() {
 
-    }
 
     //添加数据
     public void insert(String uid,String token){

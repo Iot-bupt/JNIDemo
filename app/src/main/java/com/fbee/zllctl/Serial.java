@@ -871,12 +871,13 @@ public class Serial {
 	// 新设备加入
 	public void newDevice_CallBack(DeviceInfo dinfo)
 	{
-		try{
+
 //			if(Config.ISFIRST==true){
 				Log.d("serial", "dinfoU.ID = " + dinfo);
 				
 				Intent i = new Intent();
 				i.setAction("com.feibi.callback");
+				i.putExtra("action", true);
 				i.putExtra("action", true);
 				i.putExtra("data",dinfo);
 				
@@ -904,12 +905,6 @@ public class Serial {
 //				mContext.sendBroadcast(i);
 				
 //			}
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-
-
 	}
 
 	// 返回新的组

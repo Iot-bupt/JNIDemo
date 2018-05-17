@@ -81,7 +81,7 @@ public class HttpControl {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("httprequest", "login请求失败 " );
+                Log.e("http", "login请求失败 " );
             }
 
             @Override
@@ -89,20 +89,19 @@ public class HttpControl {
 
 
                 Headers headers = response.headers();
-//                Log.e("info_headers", "header " + headers);
-                System.out.println("header-login:" + headers);
+                Log.e("http", "login header " + headers);
+//                System.out.println("header-login:" + headers);
 
                 ck = cookieStore.get(host).get(0);
 
                 String sessionStr = ck.toString();
                 session = sessionStr.substring(0,sessionStr.indexOf(";"));
 
-//                Log.e("info_cookies", "onResponse-size: " + cookies);
-//                Log.e("info_s", "session is  :" + s);
-
-                System.out.println("cookie is  :" + ck);
-                System.out.println("session is  :" + session);
-
+                Log.e("http", "login cookie is : " + ck);
+                Log.e("http", "login session is  :" + session);
+//
+//                System.out.println("cookie is  :" + ck);
+//                System.out.println("session is  :" + session);
             }
         });
 
@@ -112,7 +111,7 @@ public class HttpControl {
     创建新设备的post请求
      */
 
-    protected void httpcreate(String devicename){
+    protected void httpcreate(final String devicename){
 
         //请求体
         RequestBody bodyCreate = RequestBody.create(js, "{\"name\":\""+devicename.toString()+"\"}");
@@ -134,21 +133,22 @@ public class HttpControl {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("httprequest", "create请求失败 " );
+                Log.e("http", "create请求失败 " );
+                httplogin();
+                httpcreate(devicename);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
-//                Headers headers = response.headers();
-//                System.out.println("header-create:" + headers);
-
                 String result = response.body().string();
-                System.out.println("response—create:"+result);
+//                System.out.println("response—create:"+result);
+                Log.e("http", "create_Response :"+result );
 
                 JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
                 id = jsonObject.get("id").getAsString();
-                System.out.println("id :"+id);
+//                System.out.println("id :"+id);
+                Log.e("http", "create_id: "+id );
 
             }
         });
@@ -177,45 +177,27 @@ public class HttpControl {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("httprequest", "findtoken请求失败 " );
+                Log.e("http", "findtoken请求失败 " );
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
                 Headers headers = response.headers();
-                System.out.println("header-create:" + headers);
+//                System.out.println("header-create:" + headers);
+                Log.e("http", "find_headers : "+headers);
 
                 String result = response.body().string();
-                System.out.println("response—find:"+result);
+//                System.out.println("response—find:"+result);
+                Log.e("http", "find_response : "+result );
                 JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
                 deviceToken = jsonObject.get("deviceToken").getAsString();
-                System.out.println("Token :"+deviceToken);
+//                System.out.println("Token :"+deviceToken);
+                Log.e("http", "find_token : "+deviceToken);
             }
         });
 
     }
-
-
-//
-//    public static void main(String[] arg){
-//
-//        HttpControl hc= new HttpControl();
-//        hc.httplogin();
-//        try
-//        {
-//            Thread.currentThread().sleep(1000);//毫秒
-//        }
-//        catch(Exception e){}
-//        hc.httpcreate("zy");
-//        try
-//        {
-//            Thread.currentThread().sleep(1000);//毫秒
-//        }
-//        catch(Exception e){}
-//        hc.httpfind();
-//
-//    }
 
 }
 

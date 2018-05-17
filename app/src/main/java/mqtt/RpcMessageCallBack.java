@@ -35,7 +35,8 @@ public class RpcMessageCallBack implements MqttCallback{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		SecondActivity.wrapper.init();
+		//SecondActivity.wrapper.init();
+		RpcMqttClient.init();
 	}
 
 	@Override

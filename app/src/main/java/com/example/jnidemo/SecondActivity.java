@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +51,7 @@ public  class SecondActivity extends ActionBarActivity {
 
 	private HttpControl hc= new HttpControl();
 	private DataMqttClient dataMqttClient = new DataMqttClient();
-	private TokenImpl database = new TokenImpl();
+	private TokenImpl database = new TokenImpl(this);
 	
 	private final Timer timer = new Timer();
 	
@@ -89,28 +90,21 @@ public  class SecondActivity extends ActionBarActivity {
         registerReceiver(smsBroadCastReceiver,new IntentFilter("com.feibi.callback"));
         serial.setmContext(getApplicationContext());
 
-		//创建SQlLite数据库
-		SQLiteOpenHelper helper = new DataBaseHelper(this);
-		helper.getWritableDatabase();
+//		//创建SQlLite数据库
+//		SQLiteOpenHelper helper = new DataBaseHelper(this);
+//		helper.getWritableDatabase();
 
         //初始化的时候进行login
-		hc.httplogin();
-		try
-		{
-			Thread.currentThread().sleep(1000);//毫秒
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+//		hc.httplogin();
 	}
 
-    
+
     private View.OnClickListener linkonclick = new View.OnClickListener() {
 		
 		@Override
 		public void onClick(View arg0) {
 			// TODO Auto-generated method stub
-			 wrapper.init();
+			// wrapper.init();
 			 int ret = serial.connectLANZll();
 	    	 if(ret > 0){
 		    	 Toast.makeText(getApplicationContext(), ret+"", Toast.LENGTH_SHORT).show();
@@ -120,7 +114,7 @@ public  class SecondActivity extends ActionBarActivity {
 	    		 Toast.makeText(getApplicationContext(), ret+"", Toast.LENGTH_SHORT).show();
 	    	 }
 			serial.getDevices();
-			timer.schedule(task, 3000, 5000);
+//			timer.schedule(task, 3000, 5000);
 
 		}
 	};
@@ -135,19 +129,18 @@ public  class SecondActivity extends ActionBarActivity {
 	    {
 
 			DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
+            devices.put(deviceInfo.getUId()+"", deviceInfo);
 
 			String uid = deviceInfo.getUId();
 			if(database.get(uid) == null){
 			    //SQLite里没有token
                 hc.httpcreate(deviceInfo.getDeviceName());
-                try
-                {
+                try {
                     Thread.currentThread().sleep(1000);//毫秒
                 }
                 catch(Exception e){}
                 hc.httpfind(hc.id);
-                try
-                {
+                try {
                     Thread.currentThread().sleep(1000);//毫秒
                 }
                 catch(Exception e){}
@@ -177,10 +170,10 @@ public  class SecondActivity extends ActionBarActivity {
 			DeviceData deviceData = convert(deviceInfo);
 			Gson gson = new Gson();
 			String deviceDataStr = gson.toJson(deviceData);
-			JSONObject jsonObject = new JSONObject(deviceDataStr);
+//			JSONObject jsonObject = new JSONObject(deviceDataStr);
 			//进行发送
-			dataMqttClient.publishAttribute(token,jsonObject);
-//			devices.put(deviceInfo.getUId()+"", deviceInfo);
+			dataMqttClient.publishAttribute(token,deviceDataStr);
+
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -199,7 +192,9 @@ public  class SecondActivity extends ActionBarActivity {
 			}else {
 				info.put("telemetry",sensordata);
 			}
-			dataMqttClient.publishData(token,info);
+
+			String data = info.toString();
+			dataMqttClient.publishData(token,data);
 		} catch (Exception e){
 			e.printStackTrace();
 		}

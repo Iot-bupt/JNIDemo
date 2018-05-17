@@ -16,25 +16,26 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="26dp"
         android:text="Link server" />
-<!--
 
- <Button
-        android:id="@+id/btn_init"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_link"
-        android:layout_marginBottom="22dp"
-        android:text="Init" />
+    <!--
 
-    <Button
-        android:id="@+id/btn_device"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="91dp"
-        android:text="Get Device" />
--->
+     <Button
+            android:id="@+id/btn_init"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_link"
+            android:layout_marginBottom="22dp"
+            android:text="Init" />
+
+        <Button
+            android:id="@+id/btn_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="91dp"
+            android:text="Get Device" />
+    -->
 
 
 

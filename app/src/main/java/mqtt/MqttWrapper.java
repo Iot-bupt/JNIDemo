@@ -19,7 +19,7 @@ public class MqttWrapper {
 	try{
 		
 //		uploadMqtt = new MqttClient(Config.DATACACHE_MQTT_HOST,"iotUploaddata",new MemoryPersistence());
-		rpcMqtt = new MqttClient(Config.THINGSBOARD_MQTT_HOST,"receiveRPC",new MemoryPersistence());
+//		rpcMqtt = new MqttClient(Config.THINGSBOARD_MQTT_HOST,"receiveRPC",new MemoryPersistence());
 
 		MqttConnectOptions optionforUploadMqtt = new MqttConnectOptions();
 		MqttConnectOptions optionforRpcMqtt = new MqttConnectOptions();
