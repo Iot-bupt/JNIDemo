@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import java.util.List; 
+import com.example.jnidemo.SecondActivity;
+
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -878,9 +880,7 @@ public class Serial {
 				Intent i = new Intent();
 				i.setAction("com.feibi.callback");
 				i.putExtra("action", true);
-				i.putExtra("action", true);
 				i.putExtra("data",dinfo);
-				
 				mContext.sendBroadcast(i);
 //			}else{
 //
@@ -973,6 +973,28 @@ public class Serial {
 	 *            传感器数据类型：00 ： 温度       17：湿度
 	 */
 	public void arriveReport_CallBack(int uId, int data, char clusterId, char attribID) {
+
+			DeviceInfo dinfo = SecondActivity.devices.get(uId+"");
+
+		if(dinfo == null){
+			Log.e("12345", "dinfo为空");
+		}else{
+			if(dinfo.getDeviceId()!=770){
+				return;
+			}
+			dinfo.setAttribID((short)attribID);
+			dinfo.setSensordata(data);
+
+			//发送新的广播
+			Intent i = new Intent();
+			i.setAction("com.feibi.callback");
+			i.putExtra("action", true);
+			i.putExtra("data",dinfo);
+			mContext.sendBroadcast(i);
+
+		}
+
+
 //		try{
 //			Intent i = new Intent();
 //			i.setAction("com.feibi.callback");

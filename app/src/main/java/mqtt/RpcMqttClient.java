@@ -15,13 +15,15 @@ import config.Config;
 
 public class RpcMqttClient {
 
-    public static String rpcToken = "";
-    public static String RPC_TOPIC = "";
+    public static String rpcToken = "gbNJ8K5a0Hggwd66vHqn";
+    public static String RPC_TOPIC = "v1/devices/me/rpc/request/+";
     static MqttClient rpcMqtt;
     public static void init(){
         try{
-            rpcMqtt.disconnect();
-            rpcMqtt.close();
+            if(rpcMqtt!=null){
+                rpcMqtt.disconnect();
+                rpcMqtt.close();
+            }
             rpcMqtt = null;
             rpcMqtt = new MqttClient(Config.HOST,"receiveRPC",new MemoryPersistence());
             MqttConnectOptions optionforRpcMqtt = new MqttConnectOptions();

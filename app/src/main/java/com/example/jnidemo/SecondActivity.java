@@ -35,6 +35,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import config.Config;
+import mqtt.RpcMqttClient;
 
 
 public  class SecondActivity extends ActionBarActivity {
@@ -85,17 +86,19 @@ public  class SecondActivity extends ActionBarActivity {
         Button btn_link = (Button) findViewById(R.id.btn_link);
         btn_link.setOnClickListener(linkonclick);
 
+
 		//创建广播接收器
         smsBroadCastReceiver = new SmsBroadCastReceiver();
         registerReceiver(smsBroadCastReceiver,new IntentFilter("com.feibi.callback"));
         serial.setmContext(getApplicationContext());
 
-//		//创建SQlLite数据库
-//		SQLiteOpenHelper helper = new DataBaseHelper(this);
-//		helper.getWritableDatabase();
+		//创建SQlLite数据库
+		SQLiteOpenHelper helper = new DataBaseHelper(this);
+		helper.getWritableDatabase();
 
-        //初始化的时候进行login
-//		hc.httplogin();
+//        初始化的时候进行login
+		hc.httplogin();
+		RpcMqttClient.init();
 	}
 
 
@@ -114,7 +117,7 @@ public  class SecondActivity extends ActionBarActivity {
 	    		 Toast.makeText(getApplicationContext(), ret+"", Toast.LENGTH_SHORT).show();
 	    	 }
 			serial.getDevices();
-//			timer.schedule(task, 3000, 5000);
+			timer.schedule(task, 3000, 5000);
 
 		}
 	};
@@ -128,28 +131,40 @@ public  class SecondActivity extends ActionBarActivity {
 	    public void onReceive(Context context, Intent intent)   
 	    {
 
-			DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
+			final DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
             devices.put(deviceInfo.getUId()+"", deviceInfo);
 
-			String uid = deviceInfo.getUId();
+//            if (!deviceInfo.getDeviceName().equals("switch_1")){
+//            	return;
+//			}
+			final int uid = deviceInfo.getUId();
 			if(database.get(uid) == null){
 			    //SQLite里没有token
-                hc.httpcreate(deviceInfo.getDeviceName());
-                try {
-                    Thread.currentThread().sleep(1000);//毫秒
-                }
-                catch(Exception e){}
-                hc.httpfind(hc.id);
-                try {
-                    Thread.currentThread().sleep(1000);//毫秒
-                }
-                catch(Exception e){}
-                //存入DB
-                database.insert(uid,hc.deviceToken);
-                //摘除sensordata发送属性
-                postDeviceAttribute(deviceInfo, hc.deviceToken);
-                //只发送sensordata
-                postDeviceData(deviceInfo, hc.deviceToken);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						String id=null,token=null;
+						try{
+							id = hc.httpcreate(deviceInfo.getDeviceName());
+							token = hc.httpfind(id);
+							Log.e("12345", "id: "+id );
+							Log.e("12345", "token: "+token);
+						}catch (Exception e){
+							e.printStackTrace();
+						}
+						if(id==null||token==null){
+							Log.e("12345", "onReceive: 创建设备失败");
+							hc.httplogin();
+							return;
+						}
+						//存入DB
+						database.insert(uid,token);
+						//摘除sensordata发送属性
+						postDeviceAttribute(deviceInfo, token);
+						//只发送sensordata
+						postDeviceData(deviceInfo, token);
+					}
+				}).start();
 
             }else{
 			    //SQLite里有token，从表中拿token
@@ -183,7 +198,7 @@ public  class SecondActivity extends ActionBarActivity {
 		try {
 			int sensordata = deviceInfo.getSensordata();
 			JSONObject info = new JSONObject();
-			if(deviceInfo.getDeviceId()==0x302){
+			if(deviceInfo.getDeviceId()==0x0302){
 				if(deviceInfo.getAttribID() == 0x00){
 					info.put("temperature", sensordata);
 				}else{

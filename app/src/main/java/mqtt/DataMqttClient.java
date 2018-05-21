@@ -1,5 +1,7 @@
 package mqtt;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -24,7 +26,7 @@ public class DataMqttClient {
         }
 
     }
-    public static void publishData(String token,String data) throws  Exception{
+    public static synchronized void publishData(String token,String data) throws  Exception{
         MqttConnectOptions options = new MqttConnectOptions();
         options.setCleanSession(true);
         options.setUserName(token);
@@ -37,12 +39,13 @@ public class DataMqttClient {
         client.disconnect();
     }
 
-    public static void publishAttribute(String token,String data)throws  Exception{
+    public static synchronized  void publishAttribute(String token,String data)throws  Exception{
         MqttConnectOptions options = new MqttConnectOptions();
         options.setCleanSession(true);
         options.setUserName(token);
         options.setConnectionTimeout(10);
         client.connect(options);
+
         MqttMessage msg = new MqttMessage(data.getBytes());
         msg.setRetained(false);
         msg.setQos(0);

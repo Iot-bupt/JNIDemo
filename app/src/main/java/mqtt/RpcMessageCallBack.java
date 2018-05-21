@@ -51,15 +51,15 @@ public class RpcMessageCallBack implements MqttCallback{
 	
 		JSONObject messageData = new JSONObject(new String(msg.getPayload()));
 
-		String method = messageData.getString("method");
-		JSONObject params = messageData.getJSONObject("params");
-		String uid = params.getString("uid");
+		String method = messageData.getString("methodName");
+		//JSONObject params = messageData.getJSONObject("params");
+		String uid = messageData.getString("uid");
 
-		Log.e("12345", "params  ="+params );
+		Log.e("12345", "params  ="+messageData );
 		Log.e("12345", "method ="+method );
 
 		if(!devices.containsKey(uid)) return;
-		Object status = params.get("status");
+		Object status = messageData.get("status");
 		int  a = 0;
 		if(status instanceof String){
 			if(status.equals("true")) a = 1;

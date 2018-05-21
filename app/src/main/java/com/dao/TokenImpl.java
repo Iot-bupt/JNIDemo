@@ -28,45 +28,45 @@ public class TokenImpl implements Token{
 
 
     //添加数据
-    public void insert(String uid,String token){
+    public void insert(int uid,String token){
         db = mytabopen.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("uid", uid);
         values.put("token", token);
         db.insert(tab_name, null, values);
-        db.close();
+//        db.close();
     }
 
     //删除数据
-    public boolean delete(String uid){
+    public boolean delete(int uid){
         db = mytabopen.getWritableDatabase();
         sql = "delete from "+tab_name+" where id = ?";
         db.execSQL(sql, new Object[]{uid});
-        db.close();
+//        db.close();
         return true;
     }
 
     //更新数据
-    public boolean update(String uid,String token) {
+    public boolean update(int uid,String token) {
         db = mytabopen.getWritableDatabase();
         sql = "update " + tab_name + " set uid=?,token=?";
         db.execSQL(sql, new Object[]{uid, token});
-        db.close();
+//        db.close();
         return true;
     }
 
 
     //查询数据
-    public String get(String uid){
+    public String get(int uid){
         db = mytabopen.getReadableDatabase();
         sql = "select * from "+tab_name+ " where uid=?";
-        Cursor cur = db.rawQuery(sql, new String[]{uid});
+        Cursor cur = db.rawQuery(sql, new String[]{uid+"".toString()});
         if(cur.moveToFirst()){
             String token = cur.getString(cur.getColumnIndex("token"));
             return token;
         }
         cur.close();
-        db.close();
+//        db.close();
         return null;
     }
 
