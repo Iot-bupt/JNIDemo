@@ -15,8 +15,8 @@ import config.Config;
 
 public class RpcMqttClient {
 
-    public static String rpcToken = "gbNJ8K5a0Hggwd66vHqn";
-    public static String RPC_TOPIC = "v1/devices/me/rpc/request/+";
+//    public static String rpcToken = "gbNJ8K5a0Hggwd66vHqn";
+//    public static String RPC_TOPIC = "v1/devices/me/rpc/request/+";
     static MqttClient rpcMqtt;
     public static void init(){
         try{
@@ -29,10 +29,10 @@ public class RpcMqttClient {
             MqttConnectOptions optionforRpcMqtt = new MqttConnectOptions();
             optionforRpcMqtt.setCleanSession(true);
             optionforRpcMqtt.setKeepAliveInterval(2);
-            optionforRpcMqtt.setUserName(rpcToken);
+            optionforRpcMqtt.setUserName(Config.RPC_DEVICE_ACCESSTOKEN);
             rpcMqtt.setCallback(new RpcMessageCallBack(rpcMqtt));
             rpcMqtt.connect(optionforRpcMqtt);
-            rpcMqtt.subscribe(RPC_TOPIC,1);
+            rpcMqtt.subscribe(Config.RPC_TOPIC,1);
         }catch(Exception e){
             e.printStackTrace();
         }

@@ -33,7 +33,7 @@ import okhttp3.Response;
 public class HttpControl {
 
     static private Cookie ck;
-    private String host = "10.108.216.193";
+    private String host = "39.104.84.131";
     static private String session ;
     public static String id;
     public String deviceToken;
@@ -68,7 +68,7 @@ public class HttpControl {
 
         //创建一个Request Request是OkHttp中访问的请求，Builder是辅助类。Response即OkHttp中的响应。
          final Request requestLogin = new Request.Builder()
-                 .url("http://10.108.216.193/api/user/login")
+                 .url("http://39.104.84.131/api/user/login")
                  .header("Accept","text/plain, */*; q=0.01")
                  .addHeader("Connection","keep-alive")
                  .addHeader("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36")
@@ -87,10 +87,8 @@ public class HttpControl {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
-
                 Headers headers = response.headers();
                 Log.e("http", "login header " + headers);
-//                System.out.println("header-login:" + headers);
 
                 ck = cookieStore.get(host).get(0);
 
@@ -99,9 +97,6 @@ public class HttpControl {
 
                 Log.e("http", "login cookie is : " + ck);
                 Log.e("http", "login session is  :" + session);
-//
-//                System.out.println("cookie is  :" + ck);
-//                System.out.println("session is  :" + session);
             }
         });
 
@@ -120,7 +115,7 @@ public class HttpControl {
 
         //创建一个Request Request是OkHttp中访问的请求，Builder是辅助类。Response即OkHttp中的响应。
         Request requestCreate = new Request.Builder()
-                .url("http://10.108.216.193/api/device/create")
+                .url("http://39.104.84.131/api/device/create")
                 .post(bodyCreate)
                 .addHeader("Accept","application/json, text/plain, */*")
                 .addHeader("Connection","keep-alive")
@@ -133,7 +128,6 @@ public class HttpControl {
         Response response = mOkHttpClient.newCall(requestCreate).execute();
         if (response.isSuccessful()){
                 String result = response.body().string();
-//                System.out.println("response—create:"+result);
                 Log.e("http", "create_Response :"+result );
 
                 JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
@@ -143,33 +137,6 @@ public class HttpControl {
         }
         return null;
     }
-//        Call call = mOkHttpClient.newCall(requestCreate);
-//
-//        //请求加入调度
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.e("http", "create请求失败 " );
-//                httplogin();
-//                httpcreate(devicename);
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//
-//                String result = response.body().string();
-////                System.out.println("response—create:"+result);
-//                Log.e("http", "create_Response :"+result );
-//
-//                JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
-//                id = jsonObject.get("id").getAsString();
-////                System.out.println("id :"+id);
-//                Log.e("http", "create_id: "+id );
-//
-//            }
-//        });
-//
-//    }
 
     /*
     查找令牌的get请求
@@ -179,7 +146,7 @@ public class HttpControl {
 
         //创建一个Request Request是OkHttp中访问的请求，Builder是辅助类。Response即OkHttp中的响应。
         Request requestCreate = new Request.Builder()
-                .url("http://10.108.216.193/api/device/token/" + id.toString())
+                .url("http://39.104.84.131/api/device/token/" + id.toString())
                 .get()
                 .addHeader("Accept", "application/json, text/plain, */*")
                 .addHeader("Connection", "keep-alive")
@@ -192,58 +159,15 @@ public class HttpControl {
         if (response.isSuccessful()) {
 
             String result = response.body().string();
-//                System.out.println("response—find:"+result);
             Log.e("http", "find_response : " + result);
+
             JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
             deviceToken = jsonObject.get("deviceToken").getAsString();
-//                System.out.println("Token :"+deviceToken);
             Log.e("http", "find_token : " + deviceToken);
             return deviceToken;
         }
         return null;
-//        Call call = mOkHttpClient.newCall(requestCreate);
-//        //请求加入调度
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.e("http", "findtoken请求失败 " );
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//
-//                Headers headers = response.headers();
-////                System.out.println("header-create:" + headers);
-//                Log.e("http", "find_headers : "+headers);
-//
-//                String result = response.body().string();
-////                System.out.println("response—find:"+result);
-//                Log.e("http", "find_response : "+result );
-//                JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
-//                deviceToken = jsonObject.get("deviceToken").getAsString();
-////                System.out.println("Token :"+deviceToken);
-//                Log.e("http", "find_token : "+deviceToken);
-//            }
-//        });
-//
-//    }
 
-
-//    public static void main(String[] args){
-//        HttpControl hc = new HttpControl();
-//        hc.httplogin();
-//        try {
-//            Thread.currentThread().sleep(1000);//毫秒
-//        }
-//        catch(Exception e){}
-//
-//        hc.httpcreate("zy");
-//        try {
-//            Thread.currentThread().sleep(1000);//毫秒
-//        }
-//        catch(Exception e){}
-//        hc.httpfind(id);
-//    }
 
     }
 }

@@ -1,4 +1,4 @@
-package com.example.jnidemo;
+package com.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -77,7 +77,7 @@ public class RpcMessageCallBack implements MqttCallback{
 		}else{
 			String resTopic = topic.replace("request", "responce");
 			//MqttMessage message = new MqttMessage("1".getBytes());
-			SecondActivity.wrapper.rpcPublish(resTopic,"1");
+			RpcMqttClient.publicResponce(resTopic,"1");
 		}
 	}
 }

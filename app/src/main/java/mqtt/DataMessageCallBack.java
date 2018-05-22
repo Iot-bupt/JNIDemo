@@ -13,7 +13,7 @@ public class DataMessageCallBack implements MqttCallback{
 	@Override
 	public void connectionLost(Throwable arg0) {
 		// TODO Auto-generated method stub
-		SecondActivity.wrapper.init();
+		RpcMqttClient.init();
 		Log.e("12345", "data connection lost" );
 	}
 

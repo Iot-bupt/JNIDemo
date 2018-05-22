@@ -1,12 +1,6 @@
 package com.example.jnidemo;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONObject;
-
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,27 +17,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import mqtt.DataMqttClient;
-import mqtt.MqttWrapper;
-
+import com.dao.DataBaseHelper;
 import com.dao.TokenImpl;
 import com.fbee.zllctl.DeviceInfo;
 import com.fbee.zllctl.Serial;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import config.Config;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import mqtt.DataMqttClient;
 import mqtt.RpcMqttClient;
-
 
 public  class SecondActivity extends ActionBarActivity {
 	
 	public static Serial serial;
 	private SmsBroadCastReceiver smsBroadCastReceiver;
 	public static Map<String, DeviceInfo> devices = new HashMap<String, DeviceInfo>();
-	public static MqttWrapper  wrapper = new MqttWrapper();
-	
+
 	private TextView tv1;
 	private TextView tv2;
 	private EditText et1;
@@ -86,7 +80,6 @@ public  class SecondActivity extends ActionBarActivity {
         Button btn_link = (Button) findViewById(R.id.btn_link);
         btn_link.setOnClickListener(linkonclick);
 
-
 		//创建广播接收器
         smsBroadCastReceiver = new SmsBroadCastReceiver();
         registerReceiver(smsBroadCastReceiver,new IntentFilter("com.feibi.callback"));
@@ -100,6 +93,7 @@ public  class SecondActivity extends ActionBarActivity {
 		hc.httplogin();
 		RpcMqttClient.init();
 	}
+
 
 
     private View.OnClickListener linkonclick = new View.OnClickListener() {
@@ -132,7 +126,8 @@ public  class SecondActivity extends ActionBarActivity {
 	    {
 
 			final DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
-            devices.put(deviceInfo.getUId()+"", deviceInfo);
+//			Log.e("SecondActivity", "deviceInfo = "+deviceInfo );
+			devices.put(deviceInfo.getUId()+"", deviceInfo);
 
 //            if (!deviceInfo.getDeviceName().equals("switch_1")){
 //            	return;
@@ -147,14 +142,12 @@ public  class SecondActivity extends ActionBarActivity {
 						try{
 							id = hc.httpcreate(deviceInfo.getDeviceName());
 							token = hc.httpfind(id);
-							Log.e("12345", "id: "+id );
-							Log.e("12345", "token: "+token);
 						}catch (Exception e){
 							e.printStackTrace();
 						}
 						if(id==null||token==null){
 							Log.e("12345", "onReceive: 创建设备失败");
-							hc.httplogin();
+							//hc.httplogin();
 							return;
 						}
 						//存入DB
@@ -185,7 +178,6 @@ public  class SecondActivity extends ActionBarActivity {
 			DeviceData deviceData = convert(deviceInfo);
 			Gson gson = new Gson();
 			String deviceDataStr = gson.toJson(deviceData);
-//			JSONObject jsonObject = new JSONObject(deviceDataStr);
 			//进行发送
 			dataMqttClient.publishAttribute(token,deviceDataStr);
 
@@ -226,7 +218,6 @@ public  class SecondActivity extends ActionBarActivity {
     	deviceData.setDeviceid(String.valueOf(deviceInfo.getDeviceId()));
     	deviceData.setProfileid(String.valueOf(deviceInfo.getProfileId()));
     	deviceData.setType(deviceInfo.type);
-//    	deviceData.setSensordata(String.valueOf(deviceInfo.getSensordata()));
     	deviceData.setClusterid(String.valueOf(deviceInfo.getClusterId()));
     	deviceData.setAttribid(String.valueOf(deviceInfo.getAttribID()));
     	deviceData.setHascolourable(String.valueOf(deviceInfo.hasColourable));
