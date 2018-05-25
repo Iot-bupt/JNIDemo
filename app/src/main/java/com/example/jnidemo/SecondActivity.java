@@ -146,8 +146,12 @@ public  class SecondActivity extends ActionBarActivity {
 							e.printStackTrace();
 						}
 						if(id==null||token==null){
-							Log.e("12345", "onReceive: 创建设备失败");
-							//hc.httplogin();
+							Log.e("12345", "onReceive: 创建设备失败,但已重新进行了登录");
+							try {
+								hc.httpcreate(deviceInfo.getDeviceName());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							return;
 						}
 						//存入DB
