@@ -117,12 +117,10 @@ public class HttpControl {
         Request requestCreate = new Request.Builder()
                 .url("http://39.104.84.131/api/device/create")
                 .post(bodyCreate)
-//                .addHeader("Accept","application/json, text/plain, */*")
-                .addHeader("Accept","text/plain, */*, q=0.01")
+                .addHeader("Accept","application/json, text/plain, */*")
+//                .addHeader("Accept","text/plain, */*, q=0.01")
                 .addHeader("Connection","keep-alive")
                 .addHeader("Content-Type","application/json;charset=UTF-8")
-//                .addHeader("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) " +
-//                        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36")
                 .addHeader("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2)" +
                         " AppleWebKit/604.4.7 (KHTML, like Gecko) Version/11.0.2 Safari/604.4.7")
                 .addHeader("Cookie",session.toString())

@@ -126,7 +126,7 @@ public  class SecondActivity extends ActionBarActivity {
 	    {
 
 			final DeviceInfo deviceInfo = (DeviceInfo) intent.getSerializableExtra("data");
-//			Log.e("SecondActivity", "deviceInfo = "+deviceInfo );
+			Log.e("SecondActivity", "deviceInfo = "+deviceInfo );
 			devices.put(deviceInfo.getUId()+"", deviceInfo);
 
 //            if (!deviceInfo.getDeviceName().equals("switch_1")){
@@ -141,6 +141,9 @@ public  class SecondActivity extends ActionBarActivity {
 						String id=null,token=null;
 						try{
 							id = hc.httpcreate(deviceInfo.getDeviceName());
+							if(id==null){
+								return;
+							}
 							token = hc.httpfind(id);
 						}catch (Exception e){
 							e.printStackTrace();
@@ -166,7 +169,8 @@ public  class SecondActivity extends ActionBarActivity {
             }else{
 			    //SQLite里有token，从表中拿token
                 String token = database.get(uid);
-                //摘除sensordata发送属性
+				Log.e("beforesend", "deviceInfo = "+deviceInfo );
+				//摘除sensordata发送属性
                 postDeviceAttribute(deviceInfo, token);
                 //只发送sensordata
                 postDeviceData(deviceInfo, token);

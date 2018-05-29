@@ -21,14 +21,15 @@ public class RpcMqttClient {
     public static void init(){
         try{
             if(rpcMqtt!=null){
-                rpcMqtt.disconnect();
+//                rpcMqtt.disconnect();
                 rpcMqtt.close();
             }
             rpcMqtt = null;
             rpcMqtt = new MqttClient(Config.HOST,"receiveRPC",new MemoryPersistence());
             MqttConnectOptions optionforRpcMqtt = new MqttConnectOptions();
             optionforRpcMqtt.setCleanSession(true);
-            optionforRpcMqtt.setKeepAliveInterval(2);
+            optionforRpcMqtt.setConnectionTimeout(5);
+            optionforRpcMqtt.setKeepAliveInterval(20);
             optionforRpcMqtt.setUserName(Config.RPC_DEVICE_ACCESSTOKEN);
             rpcMqtt.setCallback(new RpcMessageCallBack(rpcMqtt));
             rpcMqtt.connect(optionforRpcMqtt);
